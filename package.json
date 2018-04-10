@@ -1,0 +1,15 @@
+{
+  "name": "onlinebooking",
+  "version": "1.0.0",
+  "description": "online booking system",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hui jiang",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.5.8",
+    "express": "^4.16.3"
+  }
+}
