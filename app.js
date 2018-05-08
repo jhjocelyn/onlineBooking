@@ -36,8 +36,19 @@ app.get("/", function(req, res){
 
 //ACCOUNT - AFTER LOGGED IN
 app.get("/account",isLoggedIn,function(req, res){
-   res.render("account");
+    res.render("account");
 });
+
+
+// app.post("/account/:id",function(req,res){
+//     var id = req.params.id;
+//     var firstname = req.body.firstname;
+//     var lastname = req.body.lastname;
+//     var
+//     User.findById(id,function(err,user){
+//         user.firstname()
+//     });
+// });
 
 //REGISTER HERE
 app.get("/register", function(req, res){
@@ -65,11 +76,11 @@ app.get("/login", function(req, res){
 });
 
 //SEND LOGIN IN INFO -> ACCOUNT
-app.post("/login", passport.authenticate("local", {
-    successRedirect: "/account",
-    failureRedirect: "/login"
-}) ,function(req, res){
-});
+// app.post("/login", passport.authenticate("local", {
+//     successRedirect: "/account",
+//     failureRedirect: "/login"
+// }) ,function(req, res){
+// });
 
 app.get("/logout",function(req,res){
     req.logout();

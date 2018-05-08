@@ -1,30 +1,122 @@
 <% include partials/header %>
-<div class='landing'>
-    <nav class="navbar navbar-default nav-custom">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">DogGroomByTom</a>
+<div class='account'>
+        <nav class="navbar navbar-default nav-custom">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="/">DogGroomByTom</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="container">
+            <div class="left">
+                <div class="panal">
+                    <img src="/images/default.jpeg" class="img-circle" alt="Cinque Terre" width="150" height="150">
+                     <a class="btn-edit btn" href="#">Edit My Profile</a>
+                </div>
+            </div>
+
+            <div class="right">
+                    <form action="" methos="POST">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="firstname">First Name:</label>
+                                <input type="text" name="firstname" class="form-control" placeholder="First name">
+                             </div>
+                            <div class="form-group col-md-6">
+                                 <label for="lastname">Last Name:</label>
+                                 <input type="text" name="lastname" class="form-control" placeholder="Last name">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="homeaddress">Home Address:</label>
+                                <input class="form-control" name="homeaddress" type="text" placeholder="home address">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-8">
+                                <label for="mobilenumber">Mobile Number:</label>
+                                <input class="form-control" name="mobilenumber" type="text" placeholder="mobile number">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Add More</label>
+                                <button class="btn btn-success ">Add Home Number</button>
+                            </div>
+
+                           <!--  <div class="hidden form-group col-md-12">
+                                <label for="homenumber">Home Number:</label>
+                                <input class="form-control" name="homenumber" type="text" placeholder="home number">
+                            </div>
+                            <div class="hidden form-group col-md-12">
+                                <label for="worknumber">Work Number:</label>
+                                <input class="form-control" name="worknumber" type="text" name="worknumber" placeholder="work number">
+                            </div> -->
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="dogname">Dog Name:</label>
+                                <input class="form-control" name="dogname" type="text" placeholder="dogname">
+                             </div>
+                            <div class="form-group col-md-6">
+                                <label for="dogdob">Dog Birthday:</label>
+                                <input class="form-control" name="dogdob" type="text" placeholder="DD-MM-YY">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="dogbreed">Dog Breed:</label>
+                                 <select class="btn btn-default btn-lg dropdown-toggle" name="dogbreed">
+                                    <option value="audi">Alaskan</option>
+                                    <option value="fiat">Bichon Frise</option>
+                                    <option value="audi">Briard</option>
+                                    <option value="audi">Chow Chow</option>
+                                    <option value="audi">Corgi</option>
+                                    <option value="audi">Husky</option>
+                                    <option value="audi">Komondor</option>
+                                    <option value="volvo">Labrador</option>
+                                    <option value="audi">Old English Sheepdog</option>
+                                    <option value="audi">Samoyed</option>
+                                    <option value="audi">Schnauzer</option>
+                                    <option value="saab">Shih Tzu</option>
+                                    <option value="saab">Other</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <br/>
+                        <button class="btn-sub ">Save</button>
+                    </form>
+            </div>
         </div>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
-        </ul>
-      </div>
-    </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </div>
 
 
 <% include partials/footer %>
+
+
+
+
+    <!-- <div id="user-info-form" class="container">
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="firstname" placeholder="first name">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="lastname" placeholder="last name">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="homeaddress" placeholder="home address">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="" placeholder="home address">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn-sub">Submit</button>
+                        </div>
+                    </form>
+                </div> -->
