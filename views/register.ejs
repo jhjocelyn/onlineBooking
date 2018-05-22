@@ -1,38 +1,50 @@
 <% include partials/header %>
 
 <div class="landing">
-    <nav class="navbar navbar-default nav-custom">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> Back To Home</a>
-            </div>
-          </div>
-    </nav>
+
 
     <div id="signup-header" class="container">
         <h1>Sign Up</h1>
          <h4>Already have an account? <a id="login" href="/login"> Log In</a></h4>
     </div>
     <div id="signup-form" class="container">
-        <form action="/register" method="POST">
-             <div class="form-group">
-                <input class="form-control" type="text" name="username" placeholder="username">
+        <form action="/register" method="POST" onsubmit="return formCheck()">
+            <div class="form-group">
+                <input class="form-control" type="email" name="username" placeholder="alice@wood.com"required/>
             </div>
             <div class="form-group">
-                <input class="form-control" type="email" name="email" placeholder="alice@wood.com">
+                <input id="pwd1" class="form-control" type="password" name="password" placeholder="password" required/>
             </div>
             <div class="form-group">
-                <input class="form-control" type="password" name="password" placeholder="password">
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" placeholder="confirm your password">
+                <input id="pwd2" class="form-control" type="password" placeholder="confirm your password"  required/>
             </div>
             <div class="form-group">
                 <button class="btn-sub">Submit</button>
             </div>
         </form>
     </div>
-
 </div>
 
+<script>
+
+    function formCheck(){
+        var pwd1 = document.getElementById("pwd1").value;
+        var pwd2 = document.getElementById("pwd2").value;
+        var form = document.getElementsByTagName("form");
+        if(pwd1 !== pwd2){
+            alert("Passwords cannot match");
+            return false;
+        }
+    }
+</script>
 <% include partials/footer %>
+
+
+
+
+
+
+
+
+
+

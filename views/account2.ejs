@@ -1,68 +1,66 @@
 <% include partials/header %>
-
 <div class='account'>
 
         <div class="container">
             <div class="left">
                 <div class="panal">
                     <img src="/images/default.jpeg" class="img-circle" alt="Cinque Terre" width="150" height="150">
-                     <a class="btn-edit btn" href="#">Edit My Profile</a>
+                     <button onclick="unfoldInfo()" class="btn-edit jua">Edit My Profile</button>
                 </div>
             </div>
 
             <div class="right">
-                    <form action="/account/<%= id %>" method="POST">
+                    <form class="hidden" action="/account/<%=user._id%>" method="POST">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="firstname">First Name:</label>
-                                <input type="text" name="firstname" class="form-control" placeholder="First name" required/>
+                                <input type="text" name="firstname" class="form-control" placeholder="First name" value= "<%= user.firstName%>" required/>
                              </div>
                             <div class="form-group col-md-6">
                                  <label for="lastname">Last Name:</label>
-                                 <input type="text" name="lastname" class="form-control" placeholder="Last name" required/>
+                                 <input type="text" name="lastname" class="form-control" placeholder="Last name" value= "<%= user.lastName%>" required/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="homeaddress">Home Address:</label>
-                                <input class="form-control" name="homeaddress" type="text" placeholder="home address" required/>
+                                <input class="form-control" name="homeaddress" type="text" placeholder="home address" value= "<%= user.homeAddress%>" required/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-8">
                                 <label for="mobilenumber">Mobile Number:</label>
-                                <input class="form-control" name="mobilenumber" type="tel" placeholder="mobile number" required/>
+                                <input class="form-control" name="mobilenumber" type="tel" placeholder="mobile number" value= "<%= user.mobileNumber %>"   required/>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Add More</label>
-                                <button class="btn btn-success" type="button" onclick="addMore()">Add More Number</button>
+                                <button class="btn btn-success" type="button" onclick="addMore()">Add Number</button>
                             </div>
                         </div>
 
-                        <!-- moreNumbers -->
+                         <!-- moreNumbers -->
                         <div class="row hidden morenumber">
                             <div class="form-group col-md-8">
                                 <label for="homenumber">Home Number:</label>
-                                <input class="form-control" name="homenumber" type="text" placeholder="home number">
+                                <input class="form-control" name="homenumber" type="text" value="<%= user.homeNumber%>"placeholder="home number">
                             </div>
 
                         </div>
                         <div class="row hidden morenumber">
                             <div class="form-group col-md-8">
                                 <label for="worknumber">Work Number:</label>
-                                <input class="form-control" name="worknumber" type="text" name="worknumber" placeholder="work number">
+                                <input class="form-control" name="worknumber" type="text" name="worknumber" value="<%= user.workNumber%>" placeholder="work number">
                             </div>
                         </div>
-
                         <hr>
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="dogname">Dog Name:</label>
-                                <input class="form-control" name="dogname" type="text" placeholder="dogname" required/>
+                                <input class="form-control" name="dogname" type="text" placeholder="dogname" value= "<%= user.dogName %>" required/>
                              </div>
                             <div class="form-group col-md-6">
                                 <label for="dogdob">Dog Birthday:</label>
-                                <input class="form-control" name="dogdob" type="text" placeholder="DD-MM-YYYY" pattern="^\d{2}-\d{2}-\d{4}$">
+                                <input class="form-control" name="dogdob" type="text" placeholder="DD-MM-YYYY" value="<%= user.dogDob %>" pattern="^\d{2}-\d{2}-\d{4}$">
                             </div>
                         </div>
                         <br>
@@ -89,11 +87,79 @@
                         <br/>
                         <button class="btn-sub">Save</button>
                     </form>
+
+                    <% if(user.isBooked){ %>
+                        <div class="container" id="view-appointment">
+                            <h2 class="jua">My Appointments:</h2>
+                            <% bookings.forEach(function(book){%>
+                                <br>
+                                    <span><strong>Date: </strong><%= book.date %></span>
+                                    <span><strong>Time: </strong><%= book.time %></span>
+                                <form id="form1"  class="inline" name="form1" action="" method="POST">
+                                        <input class="hidden" name="appointmentId" value="<%= book._id%>">
+                                        <button type="button" class="rebook btn btn-sm btn-success re-schedule"
+                                        onclick="reBook()" value="Re-schedule" >Re-schedule</button>
+                                        <button id="cancelbook" type="button" class="cancelbook btn btn-sm btn-danger"
+                                        onclick="cancelBook()">Cancel</button>
+                                </form>
+                                <br>
+                                <hr>
+                            <% });%>
+                        </div>
+                    <%} %>
+
             </div>
         </div>
     </div>
 
-<script>
+
+
+<script type="text/javascript">
+    var form = document.getElementsByTagName("form")[0];
+    var app = document.getElementById("view-appointment");
+    var fold = true;
+
+    var form1 = document.getElementById("form1");
+
+    function reBook(){
+        var elements = document.getElementsByClassName("rebook");
+        for(ele of elements){
+            ele.addEventListener("click",function(){
+                form1.action = "/rebook/<%=user._id%>";
+                form1.submit();
+            });
+        }
+    }
+
+    function cancelBook(){
+        var elements = document.getElementsByClassName("cancelbook");
+        for(ele of elements){
+            ele.addEventListener("click",function(){
+                form1.action = "/cancelbook/<%= user._id%>";
+                form1.submit();
+            });
+        }
+
+    }
+
+
+
+    function unfoldInfo(){
+        if(fold){
+            form.classList.remove("hidden");
+            if(app){
+                app.classList.add("hidden");
+            }
+            fold=false;
+        }else{
+            form.classList.add("hidden");
+            if(app){
+                app.classList.remove("hidden");
+            }
+            fold =true;
+        }
+    }
+
 
     var close = true;
     function addMore(){
@@ -128,8 +194,4 @@
 
 
 
-
-
 <% include partials/footer %>
-
-

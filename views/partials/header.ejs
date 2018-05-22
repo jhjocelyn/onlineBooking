@@ -7,12 +7,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- css stylesheets -->
     <!-- self css -->
+    <link href="https://fonts.googleapis.com/css?family=Jua" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
     <!-- semantic ui -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"> -->
+    <script src="../js/jquery.min.js"></script>
 
 </head>
 
 <body>
+    <div class='landing'>
+        <nav class="navbar navbar-default nav-custom">
+              <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span> DogGroomingByTom</a>
+                </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <% if (currentUser === undefined){ %>
+                            <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+                            <li><a href="/login"><span class="glyphicon glyphicon-pencil"></span> Booking</a></li>
+                        <% }else if(currentUser.isAdmin){ %>
+                            <li><a href="/account/<%= currentUser._id%>"><span class="glyphicon glyphicon-list-alt"></span> Bookings</a></li>
+                            <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                        <% }else{ %>
+                            <li><a href="/account/<%= currentUser._id%>"><span class="glyphicon glyphicon-user"></span> Account</a></li>
+                            <li><a href="/booking/<%= currentUser._id %>"><span class="glyphicon glyphicon-pencil"></span> Booking</a></li>
+                            <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log out</a></li>
+                        <% } %>
+                    </ul>
+              </div>
+        </nav>

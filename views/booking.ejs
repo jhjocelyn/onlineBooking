@@ -1,0 +1,183 @@
+<% include partials/header %>
+    <!-- jsCalendar style -->
+    <link rel="stylesheet" type="text/css" href="../css/jsCalendar.css">
+    <!-- jsCalendar script -->
+    <script type="text/javascript" src="../js/jsCalendar.js"></script>
+    <script src="/js/jquery.min.js"></script>
+
+
+
+    <div class="booking container">
+        <div class="left container">
+            <div id="my-calendar" class="green" data-navigator-position="right" data-day-format="DDD" data-min="01/05/2018"></div>
+            <br>
+        </div>
+
+        <div class="right container">
+            <form action="/booking/<%= id%>" onsubmit="return formValidate()" method="POST">
+                <!-- DATE AND TIME PICKER -->
+                <div class="row">
+                    <div id="booking-datepicer" class="form-group col-md-3">
+                        <label for="datepicker">Date:</label>
+                        <input id="date-input" name="datepicker" type="text" class="form-control" required/>
+                    </div>
+                    <div id="booking-timepicker" class="form-group col-md-3">
+                        <label for="timepicker">Time Slot:</label>
+                        <br>
+                        <select class="btn btn-default btn-lg" id="select-timepicker" name="timepicker">
+                            <option value="09:00-10:30">09:00 - 10:30</option>
+                            <option value="10:30-12:00">10:30 - 12:00</option>
+                            <option value="13:00-14:30">13:00 - 14:30</option>
+                            <option value="14:30-16:00">14:30 - 16:00</option>
+                            <option value="16:00-17:30">16:00 - 17:30</option>
+                        </select>
+                    </div>
+                </div>
+                <hr/>
+
+                <!-- DOG BREED AND SERVICE PICKER -->
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <label for="dogbreed">Dog Breed:</label>
+                        <select class="btn btn-default btn-md dropdown-toggle" name="dogbreed">
+                            <option value="Alaskan">Alaskan</option>
+                            <option value="Bichon Frise">Bichon Frise</option>
+                            <option value="Briard">Briard</option>
+                            <option value="Chow Chow">Chow Chow</option>
+                            <option value="Corgi">Corgi</option>
+                            <option value="Husky">Husky</option>
+                            <option value="Komondor">Komondor</option>
+                            <option value="Labrador">Labrador</option>
+                            <option value="Old English Sheepdog">Old English Sheepdog</option>
+                            <option value="Samoyed">Samoyed</option>
+                            <option value="Schnauzer">Schnauzer</option>
+                            <option value="Shih Tzu">Shih Tzu</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="service">Grooming Services:</label>
+                        <select class="btn btn-default btn-md dropdown-toggle" name="service"">
+                            <option value="Wash only">Wash only</option>
+                            <option value="Full Clip/Breed Style">Full Clip/Breed Style</option>
+                            <option value="Bath & Groom">Bath & Groom</option>
+                            <option value="Bath & Tidy">Bath & Tidy</option>
+                        </select>
+                    </div>
+                </div>
+                <hr/>
+
+                <!-- MESSAGE FOR THE GROMMER -->
+                <div class="row">
+                    <div class="form-group col-md-5">
+                        <label for="comment">Message left for the Groomer:</label>
+                        <textarea class="form-control rounded-0" name="comment" id="comment" rows="6"></textarea>
+                        <br>
+                    </div>
+                </div>
+
+                <button class="btn-sub" type="submit">Confirm</button>
+                <button class="btn-sub" type="reset">Reset</button>
+                <button class="btn-sub" type="button" onclick="backToAccount()">Cancel</button>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+
+
+
+    var element = document.getElementById("my-calendar");
+    var calendar = jsCalendar.new(element, "now");
+    var inputDate = document.getElementById("date-input");
+    var selected = [];
+
+    function backToAccount(){
+        window.location.href="/account/<%= id%>";
+    }
+
+    function formateDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        return [day, month, year].join('/');
+    }
+
+
+    function disableSelected(sdate){
+        $.ajax({
+            method:"GET",
+            url:`/selected?date=${sdate}`,
+        }).done(function(res){
+           console.log(res.data);
+           for(time of res.data){
+                document.getElementById("select-timepicker").options[time].disabled = true;
+            }
+        }).fail(function(){
+            console.log("Ajax fails");
+        });
+    }
+
+    calendar.onDateClick(function(event,date){
+        var sdate = formateDate(date);
+        disableSelected(sdate);
+        inputDate.value = sdate;
+        if(selected.length===0){
+            selected.push(sdate);
+            calendar.select(selected);
+        }else{
+            calendar.unselect(selected);
+            selected=[];
+            selected.push(sdate);
+            calendar.select(sdate);
+        }
+    });
+
+    function formValidate(){
+        var selectDay = document.getElementById("date-input").value;
+        var now = new Date();
+        var hour = now.getHours();
+        var min  = now.getMinutes()/60;
+        var today = formateDate(now);
+        var selectTime = document.getElementById("select-timepicker").value;
+        var selectHour = Number(selectTime.split("-")[0].split(":")[0]);
+        var selectMin = Number(selectTime.split("-")[0].split(":")[1])/60;
+        var sday = Number(selectDay.split("/")[0]);
+        var smonth = Number(selectDay.split("/")[1]);
+        var tday = Number(today.split("/")[0]);
+        var tmonth = Number(today.split("/")[1]);
+        if(today === selectDay){
+            var future = selectHour+selectMin;
+            var current = hour+min+1.5;
+            if(current > future){
+                alert("Please book one and half an hour earlier than now");
+                return false;
+            }
+        }
+        if(sday < tday || smonth < tmonth){
+            alert("Please do not book a day in the past");
+            return false;
+        }
+    }
+
+</script>
+
+
+
+
+
+
+<% include partials/footer %>
+
+
+
+
+
+
